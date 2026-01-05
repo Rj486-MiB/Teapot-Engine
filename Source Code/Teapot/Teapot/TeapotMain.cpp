@@ -46,7 +46,7 @@ int WINAPI WinMain(HINSTANCE hI, HINSTANCE hP, LPSTR lp, int nS) {
     wc.lpszClassName = "TeapotEngine";
     RegisterClass(&wc);
 
-    HWND hwnd = CreateWindow("TeapotEngine", "Teapot Engine - Fart Edition", 
+    HWND hwnd = CreateWindow("TeapotEngine", "Teapot Engine - Dookie Edition", 
         WS_OVERLAPPEDWINDOW | WS_VISIBLE, 100, 100, gW, gH, 0, 0, hI, 0);
 
     float px=0, py=60, pz=-400, ang=0, lY=0;
@@ -65,20 +65,22 @@ int WINAPI WinMain(HINSTANCE hI, HINSTANCE hP, LPSTR lp, int nS) {
             } else { tKey = false; }
 
             float speed = GetAsyncKeyState(VK_SHIFT) ? 15.0f : 7.0f;
-
+			HWND myWindow = hwnd; // Gets HWND of the Teapot Engine window
+			bool windowFocused = (GetForegroundWindow() == hwnd); // Compares it to the focused window
             float dirX = (float)sin(ang);
             float dirZ = (float)cos(ang);
-
+			if (windowFocused){ //If the focused window's HWND matches the current one, does the control routine
             if(GetAsyncKeyState('W')) { px += dirX * speed; pz += dirZ * speed; }
             if(GetAsyncKeyState('S')) { px -= dirX * speed; pz -= dirZ * speed; }
             
             if(GetAsyncKeyState('A')) { px -= dirZ * speed; pz += dirX * speed; }
             if(GetAsyncKeyState('D')) { px += dirZ * speed; pz -= dirX * speed; }
 
-            if(GetAsyncKeyState(VK_LEFT))  ang -= 0.07f;
-            if(GetAsyncKeyState(VK_RIGHT)) ang += 0.07f;
+            if(GetAsyncKeyState(VK_LEFT))  ang += 0.07f;
+            if(GetAsyncKeyState(VK_RIGHT)) ang -= 0.07f;
             if(GetAsyncKeyState(VK_PRIOR)) lY += 15.0f; 
             if(GetAsyncKeyState(VK_NEXT))  lY -= 15.0f;
+			}
 
             if(RenderFrame) RenderFrame(hwnd, px, py, pz, ang, lY);
             Sleep(1); 
