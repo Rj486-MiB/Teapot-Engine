@@ -1,0 +1,31 @@
+﻿Build started 21.12.2025 20:18:55.
+     1>Project "C:\Users\Classical\Documents\Visual Studio 2010\Projects\Wadcompiler\Wad Compiler\Wad Compiler.vcxproj" on node 2 (build target(s)).
+     1>InitializeBuildStatus:
+         Creating "Release\Wad Compiler.unsuccessfulbuild" because "AlwaysCreate" was specified.
+       ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /Zi /nologo /W3 /WX- /Ox /Oi /Oy- /GL /D "WIN32" /D NDEBUG /D _CONSOLE /D _MBCS /Gm- /EHsc /MT /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Release\\" /Fd"Release\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt CompilerMain.cpp
+         CompilerMain.cpp
+     1>CompilerMain.cpp(9): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\stdio.h(234) : see declaration of 'fopen'
+     1>CompilerMain.cpp(10): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\stdio.h(234) : see declaration of 'fopen'
+     1>CompilerMain.cpp(20): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\stdio.h(371) : see declaration of 'sprintf'
+     1>CompilerMain.cpp(30): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\include\stdio.h(234) : see declaration of 'fopen'
+       ResourceCompile:
+         All outputs are up-to-date.
+       Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\Classical\Documents\Visual Studio 2010\Projects\Wadcompiler\Release\Wad Compiler.exe" /INCREMENTAL:NO /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST:NO /DEBUG /PDB:"C:\Users\Classical\Documents\Visual Studio 2010\Projects\Wadcompiler\Release\Wad Compiler.pdb" /SUBSYSTEM:CONSOLE /OPT:REF /OPT:ICF /LTCG /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\Classical\Documents\Visual Studio 2010\Projects\Wadcompiler\Release\Wad Compiler.lib" /MACHINE:X86 "Release\Wad Compiler.res"
+         Release\CompilerMain.obj
+         Generating code
+         Finished generating code
+         Wad Compiler.vcxproj -> C:\Users\Classical\Documents\Visual Studio 2010\Projects\Wadcompiler\Release\Wad Compiler.exe
+       FinalizeBuildStatus:
+         Deleting file "Release\Wad Compiler.unsuccessfulbuild".
+         Touching "Release\Wad Compiler.lastbuildstate".
+     1>Done Building Project "C:\Users\Classical\Documents\Visual Studio 2010\Projects\Wadcompiler\Wad Compiler\Wad Compiler.vcxproj" (build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:01.93
