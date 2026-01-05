@@ -1,0 +1,15 @@
+Debug/
+Release/
+*.sdf
+*.opensdf
+*.ncb
+*.user
+*.suo
+.vs/
+*.exe
+*.dll
+*.lib
+*.obj
+*.pdb
+Thumbs.db
+Desktop.ini
