@@ -1,9 +1,0 @@
-TEAPOT ENGINE TEXTURE MAP
-=========================
-ID: 1 -> File: Sprite1.bmp
-ID: 2 -> File: Sprite2.bmp
-ID: 3 -> File: Sprite3.bmp
-ID: 4 -> File: Stone.bmp
-ID: 5 -> File: Wall.bmp
-ID: 6 -> File: Wall1.bmp
-ID: 7 -> File: Wall2.bmp

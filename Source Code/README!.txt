@@ -4,7 +4,7 @@ VISUAL STUDIO 2010 (C++10)
 NO NEWER VERSIONS WILL NOT WORK!
 Unless they use C++10
 
-To open and inspect the code find the .sln file inside the folders of the 5
+To open and inspect the code find the .sln file inside the folders of the 6
 source codes and open the .sln file with Visual Studio 2010 or something that supports it
 
 WARNING!

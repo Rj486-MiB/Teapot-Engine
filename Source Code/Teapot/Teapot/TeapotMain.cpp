@@ -2,19 +2,19 @@
 #include <math.h>
 #include <stdio.h>
 
-typedef void (*REND)(HWND, float, float, float, float, float);
+typedef void (*REND)(HWND, float, float, float, float, float, int);
 REND RenderFrame = NULL;
 HINSTANCE hDLL = NULL;
 
-int gW = 800, gH = 600, gConsoleMode = 1;
-float gFOV = 550.0f;
+// Globals
+float px = 0, py = 60, pz = -400, ang = 0, lY = 0;
+int gW = 800, gH = 600;
+DWORD lastTime = 0;
+int currentFPS = 0;
 
 void LoadConfig() {
     FILE* f = fopen("Config.ini", "r");
-    if(f) {
-        fscanf(f, "Width=%d\nHeight=%d\nFOV=%f\nConsole=%d", &gW, &gH, &gFOV, &gConsoleMode);
-        fclose(f);
-    }
+    if(f) { fscanf(f, "Width=%d\nHeight=%d", &gW, &gH); fclose(f); }
 }
 
 LRESULT CALLBACK WndProc(HWND h, UINT m, WPARAM w, LPARAM l) {
@@ -24,68 +24,70 @@ LRESULT CALLBACK WndProc(HWND h, UINT m, WPARAM w, LPARAM l) {
 
 int WINAPI WinMain(HINSTANCE hI, HINSTANCE hP, LPSTR lp, int nS) {
     LoadConfig();
-
-    if (GetFileAttributes("bin/maps/Map.bs2") == INVALID_FILE_ATTRIBUTES) {
-        MessageBox(0, "CRITICAL ERROR: bin/maps/Map.bs2 is missing!", "Teapot Engine", MB_ICONERROR);
-    }
-    if (GetFileAttributes("bin/materials/Texture.wad") == INVALID_FILE_ATTRIBUTES) {
-        MessageBox(0, "WARNING: Texture.wad missing.", "Teapot Engine", MB_ICONWARNING);
-    }
-
     hDLL = LoadLibrary("bin/Software.dll");
-    if(!hDLL) {
-        MessageBox(0, "FATAL ERROR: Software.dll not found in bin/!", "Teapot Engine", MB_ICONERROR);
-        return 1;
-    }
+    if(!hDLL) return 1;
     RenderFrame = (REND)GetProcAddress(hDLL, "RenderFrame");
 
-    WNDCLASS wc = {0};
-    wc.lpfnWndProc = WndProc;
-    wc.hInstance = hI;
-    wc.hCursor = LoadCursor(0, IDC_ARROW);
-    wc.lpszClassName = "TeapotEngine";
-    RegisterClass(&wc);
+    WNDCLASS wc = {0}; wc.lpfnWndProc = WndProc; wc.hInstance = hI; wc.lpszClassName = "TeapotV74";
+    wc.hCursor = LoadCursor(0, IDC_ARROW); RegisterClass(&wc);
 
-    HWND hwnd = CreateWindow("TeapotEngine", "Teapot Engine - Dookie Edition", 
+    HWND hwnd = CreateWindow("TeapotV74", "Teapot Engine Build 7.4", 
         WS_OVERLAPPEDWINDOW | WS_VISIBLE, 100, 100, gW, gH, 0, 0, hI, 0);
 
-    float px=0, py=60, pz=-400, ang=0, lY=0;
     MSG msg = {0};
-
     while(msg.message != WM_QUIT) {
         if(PeekMessage(&msg, 0, 0, 0, 1)) {
-            TranslateMessage(&msg);
-            DispatchMessage(&msg);
+            TranslateMessage(&msg); DispatchMessage(&msg);
         } else {
-            if(GetAsyncKeyState('R')) { px=0; py=60; pz=-400; ang=0; lY=0; }
+            DWORD currentTime = GetTickCount();
+            if (currentTime - lastTime > 0) currentFPS = 1000 / (currentTime - lastTime);
+            lastTime = currentTime;
 
-            static bool tKey = false;
-            if(GetAsyncKeyState(VK_OEM_3)) {
-                if(!tKey) { gConsoleMode = (gConsoleMode == 1 ? 0 : 1); tKey = true; }
-            } else { tKey = false; }
+            if (GetActiveWindow() == hwnd) {
+                float speed = GetAsyncKeyState(VK_SHIFT) ? 14.0f : 7.0f;
+                
+                // ANGLE ROTATION AND WRAPPING (360)
+                if (GetAsyncKeyState(VK_LEFT))  ang += 0.07f;
+                if (GetAsyncKeyState(VK_RIGHT)) ang -= 0.07f;
+                
+                // Keep angle between 0 and 2*PI (approx 6.28)
+                if (ang > 6.2831f) ang -= 6.2831f;
+                if (ang < 0.0f) ang += 6.2831f;
 
-            float speed = GetAsyncKeyState(VK_SHIFT) ? 15.0f : 7.0f;
-			HWND myWindow = hwnd; // Gets HWND of the Teapot Engine window
-			bool windowFocused = (GetForegroundWindow() == hwnd); // Compares it to the focused window
-            float dirX = (float)sin(ang);
-            float dirZ = (float)cos(ang);
-			if (windowFocused){ //If the focused window's HWND matches the current one, does the control routine
-            if(GetAsyncKeyState('W')) { px += dirX * speed; pz += dirZ * speed; }
-            if(GetAsyncKeyState('S')) { px -= dirX * speed; pz -= dirZ * speed; }
-            
-            if(GetAsyncKeyState('A')) { px -= dirZ * speed; pz += dirX * speed; }
-            if(GetAsyncKeyState('D')) { px += dirZ * speed; pz -= dirX * speed; }
+                if (GetAsyncKeyState(VK_PRIOR)) lY += 12.0f; 
+                if (GetAsyncKeyState(VK_NEXT))  lY -= 12.0f;
 
-            if(GetAsyncKeyState(VK_LEFT))  ang += 0.07f;
-            if(GetAsyncKeyState(VK_RIGHT)) ang -= 0.07f;
-            if(GetAsyncKeyState(VK_PRIOR)) lY += 15.0f; 
-            if(GetAsyncKeyState(VK_NEXT))  lY -= 15.0f;
-			}
+                // MOVEMENT
+                float fwdX = (float)sin(ang);
+                float fwdZ = (float)cos(ang);
+                float sideX = (float)cos(ang);
+                float sideZ = (float)-sin(ang);
 
-            if(RenderFrame) RenderFrame(hwnd, px, py, pz, ang, lY);
-            Sleep(1); 
+                // W/S - Move towards current angle
+                if (GetAsyncKeyState('W')) { px -= fwdX * speed; pz += fwdZ * speed; }
+                if (GetAsyncKeyState('S')) { px += fwdX * speed; pz -= fwdZ * speed; }
+                
+                // A/D - Strafe
+                if (GetAsyncKeyState('A')) { px -= sideX * speed; pz += sideZ * speed; }
+                if (GetAsyncKeyState('D')) { px += sideX * speed; pz -= sideZ * speed; }
+
+                if (GetAsyncKeyState('R')) { px=0; py=60; pz=-400; ang=0; lY=0; }
+            }
+            if(RenderFrame) RenderFrame(hwnd, px, py, pz, ang, lY, currentFPS);
+				Sleep(1); // To Denizyt9559 do not delete this if you delete this your CPU will hate you im not kidding if you remove this your CPU will get tortured whenever you run the program just trust me 
         }
     }
-    FreeLibrary(hDLL);
     return 0;
 }
+/*
+ https://www.youtube.com/watch?v=xvFZjo5PgG0
+ Version V7.4
+ Probably the most painful version i had to suffer through
+ Newer knew LAN networking could be such a pain
+ thank god i didnt also deal with Port forwarding stuff
+ or my head would be beating like a heart
+
+ */
+
+
+// OH MY GOD THESE STUPID C4996 WARNINGS I DONT CARE ABOUT FOPEN IT WORKS PERFECTLY FINE JUST SHUT UP

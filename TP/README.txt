@@ -1,25 +1,22 @@
 ==========================================
- TEAPOT ENGINE v7.2
+ TEAPOT ENGINE v7.4
 ==========================================
 CONTROLS:
 - W/A/S/D: Move
 - PgUp/PgDn: Look Up/Down
+- <--/--> (Left arrow, right arrow): Look Left/Look Right
 
 REQUIRED FILES:
 - bin\Software.dll
 - bin\Loader.dll
+- bin\#####.dll 
 - bin\maps\Map.bs2
 - bin\materials\Texture.wad
-NEW IN v7.2:
-- Support for Dynamic Texture Naming.
-- Support for SPRITE_MOVABLE (İts just sprites but they can move)
-- Fixed upside-down sprite rendering.
-- Added vertical looking (Pitch).
-- A Patch that actually makes these updates work
-- A Patch that makes this Patch work
-- OKAY IM DONE WHATS WRONG WITH YOU
-- *Cutely Sighs* Added Strafing (A and D)
-- *Uglyly Sighs* Added Pooing (this ones a joke its not actually added lmao)
+NEW IN v7.4:
+
+- Patched The Broken Controls for Looking Left And Right (Credits to Denizyt9559)
+- Added ####################!!!
+- Patched Movement Bugs
 
 MINIMUM REQUIREMENTS:
 - Windows 95-XP

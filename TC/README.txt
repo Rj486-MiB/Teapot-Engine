@@ -1,5 +1,5 @@
 ==========================================
- TEAPOT COMPILER PACK v3.0
+ TEAPOT COMPILER PACK v4.0
 ==========================================
 WAD COMPILER:
 - Put .bmp files here.
@@ -12,3 +12,6 @@ MAP COMPILER:
 - SPRITE_MOVABLE [x1][z1] [x2][z2] [y] [speed] [ID]
 
 NOTE: [ID] is the number from Texture_List.txt
+
+The Map Compiler puts the compiled.bs2 file inside
+bin\maps
