@@ -1,2 +1,0 @@
-BOX 0 -20 150 40 Wall1
-SPRITE -30 0 100 Tree
